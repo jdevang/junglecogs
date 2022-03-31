@@ -1,4 +1,4 @@
-from redbot.core import commands
+from redbot.core import commands, checks
 from discord.ext import tasks
 from redbot.core import Config
 from redbot.core.utils import AsyncIter
@@ -21,6 +21,7 @@ class CopiumCounter(commands.Cog):
         await ctx.send(f'{day_counter} day since Jigyaa ate Junk food!')
 
     @commands.command()
+    @checks.is_owner()
     async def jigyaacopereset(self, ctx):
         await self.config.days.set(0)
         await ctx.send("Whoops! Counter has been reset cuz jigyaa broke the promise. Spam <@553118521412812801> and ask her about her copium!")
