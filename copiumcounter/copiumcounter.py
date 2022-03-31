@@ -18,7 +18,7 @@ class CopiumCounter(commands.Cog):
     @commands.command()
     async def jigyaacope(self, ctx):
         day_counter = await self.config.days()
-        await ctx.send(f'{day_counter} day since Jigyaa ate Junk food!')
+        await ctx.send(f'{day_counter} days since Jigyaa ate Junk food!')
 
     @commands.command()
     @checks.is_owner()
