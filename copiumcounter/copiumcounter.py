@@ -11,7 +11,8 @@ class CopiumCounter(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=696969696969)
         default_global = {
-            "days": 0
+            "days": 0,
+            "record": 0
         }
         self.config.register_global(**default_global)
         self.updatejigyaacope.start()
@@ -24,8 +25,20 @@ class CopiumCounter(commands.Cog):
     @commands.command()
     @checks.is_owner()
     async def jigyaacopereset(self, ctx):
+        days = await self.config.days()
+        record_days = await self.config.record()
+        record_days = record_days if record_days > days else days
+        await self.config.record.set(record_days)
         await self.config.days.set(0)
-        await ctx.send("Whoops! Counter has been reset cuz jigyaa broke the promise. Spam <@553118521412812801> and ask her about her copium!")
+        await ctx.send(f"Whoops! Counter has been reset cuz jigyaa broke the promise. Her current record is {record_days}. Spam <@553118521412812801> and ask her about her copium!")
+
+    @commands.command()
+    @checks.is_owner()
+    async def jigyaacoperecordreset(self, ctx):
+        record_days = await self.config.record()
+        print(record_days)
+        record_days = 0
+        await self.config.record.set(record_days)
     
     @tasks.loop(hours=24)
     async def updatejigyaacope(self):
@@ -38,9 +51,7 @@ class CopiumCounter(commands.Cog):
         minute = 0
         await self.bot.wait_until_ready()
         now = datetime.now()
-        print(now)
         future = datetime(now.year, now.month, now.day, hour, minute)
         if now.hour >= hour and now.minute > minute:
             future += timedelta(days=1)
-        print(future-now)
         await asyncio.sleep((future-now).seconds)
