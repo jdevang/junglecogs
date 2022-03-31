@@ -34,11 +34,13 @@ class CopiumCounter(commands.Cog):
     
     @updatejigyaacope.before_loop
     async def before_updatejigyaacope(self):
-        hour = 24
-        minute = 00
+        hour = 0
+        minute = 0
         await self.bot.wait_until_ready()
         now = datetime.now()
-        future = datetime.datetime(now.year, now.month, now.day, hour, minute)
+        print(now)
+        future = datetime(now.year, now.month, now.day, hour, minute)
         if now.hour >= hour and now.minute > minute:
             future += timedelta(days=1)
+        print(future-now)
         await asyncio.sleep((future-now).seconds)
