@@ -1,7 +1,8 @@
 from redbot.core import commands, checks
 from discord.ext import tasks
 from redbot.core import Config
-from redbot.core.utils import AsyncIter
+from datetime import datetime, timedelta
+import asyncio
 
 class CopiumCounter(commands.Cog):
     """My custom cog"""
@@ -32,10 +33,10 @@ class CopiumCounter(commands.Cog):
         await self.config.days.set(day_counter + 1)
     
     @updatejigyaacope.before_loop
-    async def before_updatejigyaacope():
+    async def before_updatejigyaacope(self):
         hour = 24
         minute = 00
-        await bot.wait_until_ready()
+        await self.bot.wait_until_ready()
         now = datetime.now()
         future = datetime.datetime(now.year, now.month, now.day, hour, minute)
         if now.hour >= hour and now.minute > minute:
