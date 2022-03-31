@@ -36,7 +36,6 @@ class CopiumCounter(commands.Cog):
     @checks.is_owner()
     async def jigyaacoperecordreset(self, ctx):
         record_days = await self.config.record()
-        print(record_days)
         record_days = 0
         await self.config.record.set(record_days)
     
